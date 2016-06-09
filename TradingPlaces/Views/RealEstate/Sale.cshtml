@@ -1,0 +1,115 @@
+﻿@using TradingPlaces.Models
+@using TradingPlaces.Helpers
+@model IEnumerable<Construction>
+
+@{
+    ViewBag.Title = "Sale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+    $(function(){
+        $('#Show').change(function () {
+            location.href = '/RealEstate/Sale?pageNum=0&pageSize=' + $('#Show').attr('value')
+        })
+    })
+
+    </script>
+}
+
+@section MenuCap {
+    <ul class="main-nav">
+        <li><a href="/RealEstate/">MAIN</a></li>
+        <li class="active"><a href="/RealEstate/Sale">SALE</a></li>
+        <li><a href="/RealEstate/Info">INFO</a></li>
+        <li><a href="/RealEstate/Contact">CONTACT</a></li>
+    </ul>
+}
+
+<h2 class="clearfix"><span class="f-left">List of Real Estate</span>
+    <div class="paging f-right">
+        @Html.Label("Show ")
+        @Html.DropDownList("Show", new SelectList(new int[] { 5, 10, 15, 20, 25 },(int)Html.ViewData["PageSize"]) )
+        <span>items per page</span>
+    </div>
+</h2>
+
+<table cellpadding="0" cellspacing="0" class="global-table">
+    <tr>
+        <th class="id">ID</th>
+        <th class="location">Location</th>
+        <th class="postcode">Postcode</th>
+        <th class="price">Price</th>
+        <th class="bedrooms">Bedrooms</th>
+        <th class="livingrooms">Living rooms</th>
+        <th class="bathrooms">Bathrooms</th>
+        <th class="shower">Shower</th>
+        <th class="garden">Garden</th>
+        <th class="parking">Parking</th>
+    </tr>
+    @{
+        string oddclass = "odd";
+        foreach (var item in Model)
+        {
+            <tr class="@oddclass">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Postcode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bedrooms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LivingRooms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bathrooms)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Shower)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Garden)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Parking)
+                </td>
+                <td>
+                    <div class="rel">
+                        <ul class="salebtns">
+                            <li class="edit">@Html.ActionLink("edit", "Info", new { Id = @item.Id, pageNum = ViewData["PageNum"] }) </li>
+                            <li class="delete"><a href="/RealEstate/Delete/@item.Id">delete</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            if (oddclass == "")
+            {
+                oddclass = "odd";
+            }
+            else
+            {
+                oddclass = "";
+            }
+        }}
+
+</table>
+<div class="nav-bottom clearfix">
+    <a href="/RealEstate/Info/" class="btn-add"><span>Add New Item</span></a>  
+
+    <ul class="paging-numeral f-right">
+        @Html.PagingNavigator((int)Html.ViewData["PageNum"], (int)Html.ViewData["PageSize"], (int)Html.ViewData["ItemsCount"])
+    </ul>
+
+</div>

@@ -1,0 +1,40 @@
+﻿@using TradingPlaces.Models
+@model IEnumerable<Construction>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/Scripts/Simple-0.0.1.js")
+
+<style>
+    .thumb img {
+        border: 2px solid #55c5e9; /* Рамка вокруг фотографии */
+        padding: 10px; /* Расстояние от картинки до рамки */
+        background: #666; /* Цвет фона */
+        margin-right: 10px; /* Отступ справа */
+        margin-bottom: 10px; /* Отступ снизу */
+    }
+</style>
+
+@section MenuCap {
+    <ul class="main-nav">
+    <li class="active"><a href="/RealEstate/">MAIN</a></li>
+    <li><a href="/RealEstate/Sale">SALE</a></li>
+    <li><a href="/RealEstate/Info">INFO</a></li>
+    <li><a href="/RealEstate/Contact">CONTACT</a></li>
+</ul>
+}
+
+
+<div id="img">
+    <p class="thumb">
+        @{
+            foreach (var item in Model)
+            {
+                string imagePath = "data:image/jpeg;base64," + Convert.ToBase64String(item.Image);
+                <a href="/RealEstate/Info/@item.Id"><img class="prev_img" alt="" src=@imagePath height="150" width="200" /></a>
+            }
+        }
+    </p>
+</div>
+

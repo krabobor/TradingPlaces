@@ -1,0 +1,181 @@
+﻿@model TradingPlaces.Models.Construction
+@{
+    ViewBag.Title = "Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+<script type="text/javascript">
+    function del_image() { 
+        $('#prev_image').attr('src', '/Content/img/no_image.png');
+        $('#Image').val('');
+    }
+    function preview() {
+        filepath = $('#file_image').attr('value');
+        if (filepath == "") {
+            alert("Please select a file")
+        } else {
+            var input = $('#file_image')[0];
+            var f = input.files[0];
+            if (f.type.match('image.*')) {
+                var fr = new FileReader();
+                fr.onload = function (e) { $("#prev_image").attr("src", fr.result); }
+                fr.readAsDataURL(f);
+            }
+        }
+    }
+    $('#Price').keypress(function (obj) {
+        obj = (obj) ? obj : window.obj
+        var charCode = (obj.which) ? obj.which : obj.keyCode
+        if (charCode == 44) {
+            if ($('#Price').attr('value').search(',') != -1) {
+                return false
+            }
+            else {
+                return true
+            }
+        }
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    });
+
+</script>
+}
+
+@section MenuCap {
+    <ul class="main-nav">
+        <li><a href="/RealEstate/">MAIN</a></li>
+        <li><a href="/RealEstate/Sale">SALE</a></li>
+        <li class="active"><a href="/RealEstate/Info">INFO</a></li>
+        <li><a href="/RealEstate/Contact">CONTACT</a></li>
+    </ul>
+}
+
+@section SideBar {
+    <div class="sidebar">
+        <div class="border-section">
+            <div class="bottom">
+                <h3>Properties Menu</h3>
+                <ul class="vert-nav2">
+                    <li class="active"><a class="main-btn" href="#"><span>Main Information</span></a></li>
+                    <li><a class="main-btn" href="#"><span>Descriptions</span></a></li>
+                    <li><a class="main-btn" href="#"><span>Images</span></a></li>
+                    <li><a class="main-btn" href="#"><span>2D Plan</span></a></li>
+                    <li><a class="main-btn" href="#"><span>3D Plan</span></a></li>
+                    <li><a class="main-btn" href="#"><span>EPC</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+<h2>Main Information</h2>
+@using (Html.BeginForm("Info", "RealEstate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="main-info-form">
+        <div class="row clearfix">
+            @Html.ValidationSummary()
+        </div>
+        <div class="row clearfix">
+            @Html.LabelFor(model => model.Id, "ID")
+            @Html.TextBoxFor(model => model.Id, new { disabled = "disabled", @readonly = "readonly" })
+            @Html.LabelFor(model => model.Price, "Price £")
+            @Html.EditorFor(model => model.Price)
+            @Html.LabelFor(model => model.Postcode, "Postcode")
+            @Html.EditorFor(model => model.Postcode)
+        </div>
+
+        <div class="row clearfix">
+            @Html.LabelFor(model => model.Address, "Address")
+            @Html.EditorFor(model => model.Address)
+            @Html.LabelFor(model => model.Area, "Area")
+            @Html.DropDownListFor(model => model.Area, new SelectList(new string[] { "Area 1", "Area 2", "Area 3", "Area 4" }), "")
+        </div>
+        <div class="row clearfix">
+            @Html.LabelFor(model => model.Tenure, "Tenure")
+            @Html.DropDownListFor(model => model.Tenure, new SelectList(new string[] { "Freehold", "Leasehold" }))
+        </div>
+        <div class="row clearfix">
+            @Html.LabelFor(model => model.SSTC, "SSTC")
+            @Html.EditorFor(model => model.SSTC)
+        </div>
+        <div class="row clearfix">
+            <div class="col">
+                <div class="row">
+                    @Html.LabelFor(model => model.Bedrooms, "Bedrooms")
+                    @Html.DropDownListFor(model => model.Bedrooms, new SelectList(new int[] { 1, 2, 3, 4, 5 }), 1)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Bathrooms, "Bathrooms")
+                    @Html.DropDownListFor(model => model.Bathrooms, new SelectList(new int[] { 1, 2, 3, 4, 5 }), 1)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Garden, "Garden")
+                    @Html.EditorFor(model => model.Garden)
+                </div>
+            </div>
+            <div class="col">
+                <div class="row clearfix">
+                    @Html.LabelFor(model => model.LivingRooms, "Living rooms")
+                    @Html.DropDownListFor(model => model.LivingRooms, new SelectList(new int[] { 1, 2, 3, 4, 5 }), 1)
+                </div>
+                <div class="row clearfix">
+                    @Html.LabelFor(model => model.Shower, "Shower")
+                    @Html.EditorFor(model => model.Shower)
+                </div>
+                <div class="row clearfix">
+                    @Html.LabelFor(model => model.Parking, "Parking")
+                    @Html.EditorFor(model => model.Parking)
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix rel">
+            <label for="main-photo">Main Photo</label>
+            <div class="editor-field">
+                <input id="file_image" type="file" name="uploadImage" />
+                <a href="#" onclick="preview()">Preview</a>
+            </div>
+            <div class="uploaded-img">
+                @Html.HiddenFor(model => model.Image)
+                <div id="results-img">
+                    @{
+    if (Model.ImageString != null && Model.ImageString != "")
+    {
+        @Html.Raw(Model.ImageString)
+    }
+    else
+    {
+        <img id="prev_image" src="~/Content/img/no_image.png" />
+    }
+                    }
+                </div>
+                <a href="#" onclick="del_image()" class="del">Delete Image</a>
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.Сomment, "Sale's Corner")
+            @Html.TextAreaFor(model => model.Сomment, 4, 50, null)
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.PropertyStatus, "Property status")
+            @Html.DropDownListFor(model => model.PropertyStatus, new SelectList(new string[] { "Live", "Not live" }))
+            <p class="hint">
+                Hide a property on your website, PropertySpring, and all data feeds (Rightmove, etc).
+                <br>
+                N/B/ Changes may take up to 24 hours to take effect on Rightmove.
+            </p>
+        </div>
+    </div>
+
+    <ul class="buttons-bar clearfix">
+
+            <li><a href="#" onclick="history.go(-1); return false;" class="btn2"><span>Cancel</span></a></li>
+            <li><button class="btn1" type="submit">Save</button></li>
+
+    </ul>
+}
+
+

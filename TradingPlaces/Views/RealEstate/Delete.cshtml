@@ -1,0 +1,41 @@
+﻿@model TradingPlaces.Models.Construction
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this building?</h3>
+
+<div class="main-info-form">
+    <fieldset>
+        <legend>Building</legend>
+        <div class="row clearfix">
+            @Html.LabelFor(model => model.Id, "ID")
+            @Html.TextBoxFor(model => model.Id, new { disabled = "disabled", @readonly = "readonly" })
+            @Html.LabelFor(model => model.Price, "Price £")
+            @Html.TextBoxFor(model => model.Price, new { disabled = "disabled", @readonly = "readonly" })
+            @Html.LabelFor(model => model.Postcode, "Postcode")
+            @Html.TextBoxFor(model => model.Postcode, new { disabled = "disabled", @readonly = "readonly" })
+        </div>
+        <div class="row clearfix">
+            @Html.LabelFor(model => model.Address, "Address")
+            <div id="Address">
+                @Html.TextBoxFor(model => model.Address, new { disabled = "disabled", @readonly = "readonly" })
+            </div>
+            @Html.LabelFor(model => model.Area, "Area")
+            @Html.TextBoxFor(model => model.Area, new { disabled = "disabled", @readonly = "readonly" })
+        </div>
+    </fieldset>
+</div>
+
+<ul class="buttons-bar clearfix">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <li><a href="#" onclick="history.go(-1); return false;" class="btn2"><span>Cancel</span></a></li>
+        <li><button class="btn1" type="submit">Delete</button></li>
+    }
+</ul>

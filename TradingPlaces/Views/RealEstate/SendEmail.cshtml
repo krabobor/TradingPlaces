@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "SendEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var t = setTimeout("redirect()", 3000);
+        })
+        function redirect() 
+        { 
+            location.href = '/RealEstate/Sale/';
+        }
+    </script>
+}
+
+<h2>@ViewBag.Message</h2>

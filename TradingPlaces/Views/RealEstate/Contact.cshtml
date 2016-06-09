@@ -1,0 +1,213 @@
+﻿@using TradingPlaces.Helpers
+@model TradingPlaces.Models.Email
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="@Url.Content("~/Content/css/frontend.css")">
+
+<style type="text/css">
+    #Title {
+        position:absolute;
+        width:165px;
+        width:180px\9;
+        #width:180px;
+        height:20px; 
+        height:20px\9;
+        #height:18px;
+    }
+</style>
+
+@section scripts
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            var myLatlng = new google.maps.LatLng(51.5684959, 0.0091416);
+
+            var myOptions = {
+                zoom: 16,
+                center: myLatlng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var element = document.getElementById("map-canvas");
+            var map = new google.maps.Map(element, myOptions, marker);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: "Trading Places"
+            });
+
+        }
+        function setBestTime(cb, message) {
+            ContactTime = $('#ContactTime').attr('value');
+            cb = document.getElementById(cb);
+            timeMessage = message + " ";
+            if (cb.checked) {
+                ContactTime += timeMessage;
+            }
+            else {
+                ContactTime = ContactTime.replace(timeMessage, "");
+            }
+            $('#ContactTime').val(ContactTime);
+        }
+    </script>
+}
+
+@section MenuCap {
+    <ul class="main-nav">
+        <li><a href="/RealEstate/">MAIN</a></li>
+        <li><a href="/RealEstate/Sale">SALE</a></li>
+        <li><a href="/RealEstate/Info">INFO</a></li>
+        <li class="active"><a href="/RealEstate/Contact">CONTACT</a></li>
+    </ul>
+}
+
+@section SideBar {
+    <div class="sidebar">
+    <div class="border-section">
+        <div class="bottom">
+            <h3>Find a Property</h3>
+            <ul class="vert-nav2">
+                <li><a href="#" class="main-btn"><span>To Buy</span></a></li>
+                <li><a href="#" class="main-btn"><span>To Rent</span></a></li>
+                <li><a href="#" class="main-btn"><span>Register With Us</span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="left-nav">
+        <ul class="vert-nav">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Mortgages</a></li>
+            <li><a href="#">Property Lawyers</a></li>
+            <li><a href="#">Surveyors</a></li>
+            <li><a href="#">Schools</a></li>
+            <li><a href="#">Testimonials</a></li>
+            <li><a href="#">Jargon Buster</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Contact Us</a></li>
+        </ul>
+    </div>
+    <div class="border-section">
+        <div class="bottom">
+            <div class="logos-sec">
+                <a href="#"><img src="@Url.Content("~/Content/CONTACT_files/logo-1.gif")" alt=""></a>
+                <a href="#"><img src="@Url.Content("~/Content/CONTACT_files/logo-2.gif")" alt=""></a>
+                <a href="#"><img src="@Url.Content("~/Content/CONTACT_files/logo-3.gif")" alt=""></a>
+                <a href="#"><img src="@Url.Content("~/Content/CONTACT_files/logo-4.gif")" alt=""></a>
+                <a href="#"><img src="@Url.Content("~/Content/CONTACT_files/logo-5.gif")" alt=""></a>
+                <a href="#"><img src="@Url.Content("~/Content/CONTACT_files/logo-6.gif")" alt=""></a>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<h2>Contact us</h2>
+<div class="clearfix">
+    <div class="section-1">
+        <p>Are you considering selling, buying, letting or renting? We offer professional property services designed to meet your needs... Experience the difference, call us now on 020 8558 1147.</p>
+        <p>
+            46 Church Lane <br>
+            Leytonstone, London <br>
+            E11 1HE
+        </p>
+        <dl class="contact-information">
+            <dt>Tel:</dt>
+            <dd>020 8558 1147</dd>
+            <dt>Fax: 	</dt>
+            <dd>020 8556 6665</dd>
+            <dt>Email:</dt>
+            <dd>info@tradingplacesproperty.com</dd>
+        </dl>
+    </div>
+    <div class="section-2">
+        <div class="border-sec-1">
+            <div class="top">
+                <div class="bottom">
+                    <div class="map-section" id="map-canvas"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("Contact", "RealEstate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="border-section-l">
+    <div class="top">
+        <div class="bottom">
+            <div class="form">
+                <span class="legend">Mandatory field <span class="required">*</span></span>
+                <div class="row clearfix">
+                    @Html.ValidationSummary()
+                </div>
+                <div class="row clearfix">
+                    @Html.SpanTitle("Title", "required", "*")
+                    
+                    <select style="position:absolute;width:200px; height:22px;line-height:20px;margin:0;padding:0;" onchange="document.getElementById('Title').value = this.options[this.selectedIndex].text; document.getElementById('idValue').value = this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option value="Recall">Recall</option>
+                        <option value="Request">Request</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div onfocus="this.select()">
+                        @Html.EditorFor(model => model.Title)
+                    </div>
+
+                    <input name="idValue" id="idValue" type="hidden">
+                    </div>
+                <div style="position:relative;width:200px;height:25px;border:0;padding:0;margin:0;">
+
+                </div>
+                <div class="row clearfix">
+                    @Html.SpanTitle("Name", "required", "*")
+                    @Html.EditorFor(model => model.Name)
+                </div>
+                <div class="row clearfix">
+                    @Html.SpanTitle("Phone number", "required", "*")
+                    @Html.EditorFor(model => model.PhoneNumber)
+                </div>
+                <div class="row clearfix">
+                    @Html.HiddenFor(model => model.ContactTime)
+                    <label for="contact">Best time to contact you</label>
+                    <div id="contact" class="contact">
+                        <div class="clearfix anytime-item"><label for="#">Anytime</label> <input id='cb1' type="checkbox" onchange='setBestTime("cb1", "Anytime");'></div>
+                        <div class="clearfix">
+                            <ul class="item  item-1">
+                                <li><label for="#">Monday AM</label> <input id='cb2' type="checkbox" onchange='setBestTime("cb2", "Monday AM");'></li>
+                                <li><label for="#">Monday PM</label> <input id='cb3' type="checkbox" onchange='setBestTime("cb3", "Monday PM");'></li>
+                            </ul>
+                            <ul class="item">
+                                <li><label for="#">Tuesday AM</label> <input id='cb4' type="checkbox" onchange='setBestTime("cb4", "Tuesday AM");'></li>
+                                <li><label for="#">Tuesday PM</label> <input id='cb5' type="checkbox" onchange='setBestTime("cb5", "Tuesday PM");'></li>
+                            </ul>
+                            <ul class="item">
+                                <li><label for="#">Wednesday AM</label> <input id='cb6' type="checkbox" onchange='setBestTime("cb6", "Wednesday AM");'></li>
+                                <li><label for="#">Wednesday PM</label> <input id='cb7' type="checkbox" onchange='setBestTime("cb7", "Wednesday PM");'></li>
+                            </ul><ul class="item">
+                                <li><label for="#">Thursday  AM</label> <input id='cb8' type="checkbox" onchange='setBestTime("cb8", "Thursday  AM");'></li>
+                                <li><label for="#">Thursday  PM</label> <input id='cb9' type="checkbox" onchange='setBestTime("cb9", "Thursday  PM");'></li>
+                            </ul>
+                        </div>
+                        <ul class="item item-1 friday-item">
+                            <li><label for="#">Friday  AM</label> <input id='cb10' type="checkbox" onchange='setBestTime("cb10", "Friday  AM");'></li>
+                            <li><label for="#">Friday  PM</label> <input id='cb11' type="checkbox" onchange='setBestTime("cb11", "Friday  PM");'></li>
+                        </ul><ul class="item">
+                            <li><label for="#">Saturday  AM</label> <input id='cb12' type="checkbox" onchange='setBestTime("cb12", "Saturday  AM");'></li>
+                            <li><label for="#">Saturday  PM</label> <input id='cb13' type="checkbox" onchange='setBestTime("cb13", "Saturday  PM");'></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    @Html.SpanTitle("Message", "required", "*")
+                    @Html.TextAreaFor(model => model.Message, 4, 50, null)
+                </div>
+                <div class="row clearfix">
+                    <label for="#">&nbsp;</label>
+                    <li><button class="main-btn3" type="submit">Send</button></li>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

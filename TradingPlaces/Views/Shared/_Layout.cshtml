@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="@Url.Content("~/Content/img/fav.ico")" type="image/x-icon">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/default.css")">
+    
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/backend.css")">
+
+    @Scripts.Render("~/Scripts/jquery-1.8.2.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.8.24.js")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+    @Scripts.Render("http://maps.google.com/maps/api/js?sensor=false")
+
+</head>
+
+<body>
+    <div class="main clearfix">
+        <div class="header clearfix">
+            <div class="logo"><a href="/RealEstate/Sale">Tranding Place</a></div>
+            <div class="intro">Independent Estate &amp; Letting Agents | Property Management Services | Call 020 8558 1147</div>
+            <footer>
+                @if (IsSectionDefined("MenuCap"))
+                {
+                    @RenderSection("MenuCap")
+                }
+                else
+                {
+                    <ul class="main-nav">
+                        <li><a href="/RealEstate/">MAIN</a></li>
+                        <li><a href="/RealEstate/Sale">SALE</a></li>
+                        <li><a href="/RealEstate/Info">INFO</a></li>
+                        <li><a href="/RealEstate/Contact">CONTACT</a></li>
+                    </ul>
+                }
+            </footer>
+        </div>
+        <div class="holder clearfix">
+            @if (IsSectionDefined("SideBar"))
+            {
+                @RenderSection("SideBar")
+            }
+            <div class="content">
+                @RenderBody()
+
+                @Scripts.Render("~/bundles/jquery")
+                @RenderSection("scripts", required: false)
+            </div>
+        </div>
+    </div>
+<div class="footer-bg">
+    <div class="footer">
+        <ul class="nav">
+            <li><a href="/RealEstate/Sale">Home</a></li>
+            <li><a href="/RealEstate/Contact">About us</a></li>
+            <li><a href="/RealEstate/Sale">Mortgages</a></li>
+            <li><a href="/RealEstate/Sale">Property lawyers</a></li>
+            <li><a href="/RealEstate/Sale">Surveyors</a></li>
+            <li><a href="/RealEstate/Sale">Schools</a></li>
+            <li><a href="/RealEstate/Sale">Testimonials</a></li>
+            <li><a href="/RealEstate/Sale">Jargon buster</a></li>
+            <li><a href="/RealEstate/Sale">News</a></li>
+            <li><a href="/RealEstate/Contact">Contact Us</a></li>
+        </ul>
+        <div class="footer-logo"><img src="@Url.Content("~/Content/img/logo.png")" alt=""></div>
+    </div>
+</div>
+</body>
+</html>
